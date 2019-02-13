@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>PEN - Introduction</title>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<h1>
+		<a href="main.html">
+			PEN: Design and Evaluation of Partial-Erase
+	for 3D NAND-Based High Density SSDs</a></h1>
+	<h2>Contents</h2>
+	<ul>
+		<li><a href="abstract.html">Abstract</a></li>
+		<li><a href="introduction.html">1. Introduction</a></li>
+		<li><a href="background.html">2. Background</a></li>
+
+	</ul>
+	<h2>1. Introduction</h2>
+	<p>NAND flash based solid state disks (SSDs) have become
+one of the dominant storage components in different
+computing domains, ranging from embedded systems to
+general purpose workstations to high-performance datacenters [6, 13, 22, 57]. High-performance computing
+employs SSDs in various ways such as an SSD cache
+[41, 55] or a bursty buffer [39], to mitigate the performance bottlenecks imposed by the conventional hard
+disk drives (HDDs).</p>
+<p>While SSDs can significantly improve the overall system performance, there is also an emerging trend that
+pushes SSDs toward an entirely different direction [20,
+31, 51]. Specifically, major flash vendors amplify storage capacity by transitioning from 2D NAND flash to
+3D NAND flash. The 3D NAND flash technology layers flash cells vertically, which can increase the size of
+the individual flash dies. For example, Samsung stacks
+100 layers of charge trap flash (CTF) cells, and as a result can achieve 1 Terabit density flash dies without any
+modification to the existing flash interface [10].</p>
+<p>Layering multiple CTF cells increases the number of
+pages in a physical block, rather than the number of
+blocks within a die, which makes the internal microarchitecture of 3D NAND different compared to the 2D
+planar flash. Consider the vertical architecture of a particular 3D NAND flash [20], VNAND. VNAND increases
+the die density by stacking more layers, but in this architecture, CTF cells across the different layers share a same
+set of pillars (channel), thereby increasing the number of
+pages per block. Furthermore, as all the block-related
+control circuits of VNAND reside on the block decoder
+of the top layer due to staircase-like control gate [20],
+this decoder area controls the signals to all CTF cells of
+the underlying layers. Consequently, as one stacks more
+layers, the amount of such block-related control circuits
+for each block increases. However, the area from where
+one can control all layers is limited, which in turn reduces the number of blocks but increases the number of
+pages per block. Owing to this, a block of VNAND contains at least 3 times more pages per block compared to
+the 2D flash.</p>
+<p>Unfortunately, the new structure of VNAND can exacerbate the overheads incurred due to garbage collection (GC), which is one of the well-known performance
+bottlenecks in modern SSDs. Specifically, the peripheral
+circuits and the micro-architecture of VNAND’s [19, 26]
+large-granularity erase makes the latency characteristics
+of 3D NAND worse compared to 2D flash. In addition,
+the large number of pages per block can potentially accommodate more valid data that a flash firmware needs
+to migrate for each GC. The longer erase time and relatively more valid pages to migrate (i.e., a series of reads
+and writes) can have a significant performance impact
+on GC operations and may in turn render 3D flash difficult to directly replace 2D flash in many designs of high performance SSD.</p>
+<p>In this work, we propose PEN, a novel strategy to enable Partial Erase for 3D NAND flash technology. PEN alleviates the GC overheads by introducing a finer erase
+unit in 3D NAND, which can reduce number of valid
+pages copied during a GC, thereby reducing the GC latency. To the best of our knowledge, this is the first
+work that investigates partial-erase for 3D NAND, starting from the circuit level and evaluating its architectural
+ramifications from both the performance and reliability
+angles. Our contributions can be summarized as follows:
+<br>• We present a comprehensive architectural support,
+“partial-erase operation” that addresses the potential performance degradation imposed by 3D NAND flash. The
+proposed low-level operation can selectively reset multiple pages instead of erasing a bulk block by modifying
+the 3D NAND peripheral circuits, page decoders, and
+command logics, with minimum area overhead.
+<br>• While our partial-erase operation can be leveraged to
+alleviate performance degradation, the number of pages
+per reset should be determined at the design time. However, it is a non-trivial task to statically decide the operation granularity of such partial-erase operation. This
+inflexibility in turn can lead to a large mapping table size
+or introduce more valid page migrations. We propose
+a novel GC algorithm, called “M-Merge” that keeps the
+original mapping table size when the partial-erase operation is employed. In addition, M-Merge can adaptively
+decide the optimal partial-erase granularity by considering program-disturbance issues at a run-time.
+<br>• We demonstrate that the performance degradation in
+3D NAND flash stems from the increased number of
+valid pages copied during a GC operation. The evaluation studies using a set of 12 real storage workloads reveal that our PEN mechanism (putting partial-erase operation and M-Merge together) can significantly reduce
+the valid page copies during a GC operation, thereby improving the overall system performance.</p>
+
+</body>
+
+</html>
